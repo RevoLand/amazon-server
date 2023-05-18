@@ -29,7 +29,7 @@ export const trackProducts = async (productUrls: string[], interaction: CommandI
 
     if (availableWorkers.length === 0) {
       await interaction.reply({
-        content: 'asdad',
+        content: 'Uygun durumda bir Worker bulunmadığı için ürün(ler) takibe alınamadı. Toplam worker sayısı: ' + server.workerPool.workers.length,
         ephemeral: true
       });
 
