@@ -1,15 +1,17 @@
+import { Message } from 'discord.js';
 import { RawData, WebSocketServer } from 'ws';
-import { discord } from '../app';
-import webSocket from '../config/webSocket';
-import ProductController from '../controller/ProductController';
-import productCreatedEmbed from '../helpers/embeds/productCreatedEmbed';
-import productUpdated from '../helpers/embeds/productUpdatedEmbed';
-import CreateProductFromUrlResultInterface from '../interfaces/CreateProductFromUrlResultInterface';
-import ProductParseResultInterface from '../interfaces/ProductParseResultInterface';
-import TrackingResponseInterface from '../interfaces/TrackingResponseInterface';
-import ProductTracker from './product/ProductTracker';
-import Worker from './worker/Worker';
-import WorkerPool from './worker/WorkerPool';
+import { discord } from '../app.js';
+import discordConfig from '../config/discord.js';
+import webSocket from '../config/webSocket.js';
+import ProductController from '../controller/ProductController.js';
+import productCreatedEmbed from '../helpers/embeds/productCreatedEmbed.js';
+import productUpdated from '../helpers/embeds/productUpdatedEmbed.js';
+import CreateProductFromUrlResultInterface from '../interfaces/CreateProductFromUrlResultInterface.js';
+import ProductParseResultInterface from '../interfaces/ProductParseResultInterface.js';
+import TrackingResponseInterface from '../interfaces/TrackingResponseInterface.js';
+import ProductTracker from './product/ProductTracker.js';
+import Worker from './worker/Worker.js';
+import WorkerPool from './worker/WorkerPool.js';
 
 class Server {
   socketServer: WebSocketServer;
@@ -58,7 +60,7 @@ class Server {
 
         const result: CreateProductFromUrlResultInterface = {
           productDetail: await ProductController.upsertProduct(productResult),
-          existingProduct: !! productResult.product
+          existingProduct: !!productResult.product
         };
 
         const discordChannel = discord.channels.cache.get(messageObject.channelId);
@@ -71,6 +73,40 @@ class Server {
           });
         }
 
+        return;
+      }
+
+      if (messageObject.type === 'captcha') {
+        const captchaChannel = discord.channels.cache.get(discordConfig.captchaChannelId);
+
+        if (!captchaChannel?.isText()) {
+          return;
+        }
+
+        let captchaMessageContent = 'Captcha! 😓';
+        captchaMessageContent += '\n\n';
+        captchaMessageContent += `Ürün: ${messageObject.data}\n\n${messageObject.value}`;
+        if (discordConfig.captchaNotifyUserId) {
+          captchaMessageContent += `\n<@${discordConfig.captchaNotifyUserId}>`;
+        }
+
+        const captchaMessage = await captchaChannel.send({
+          content: captchaMessageContent,
+        });
+
+        captchaMessage.channel.awaitMessages({
+          filter: (m: Message) => m.reference?.messageId === captchaMessage.id,
+          max: 1
+        }).then(async (collected) => {
+          const captchaAnswer = collected.first();
+          if (captchaAnswer) {
+            worker.sendCaptchaAnswer(captchaAnswer.content.trim().toUpperCase(), messageObject.data);
+            Promise.all([
+              captchaAnswer.delete(),
+              captchaMessage.delete()
+            ]);
+          }
+        });
         return;
       }
     } catch (error) {

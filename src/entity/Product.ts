@@ -1,6 +1,6 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from 'typeorm';
+import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Relation, Unique, UpdateDateColumn } from 'typeorm';
 import { URLSearchParams } from 'url';
-import ProductPriceHistory from './ProductPriceHistory';
+import ProductPriceHistory from './ProductPriceHistory.js';
 
 @Entity('products')
 @Unique('products_unique_constraint', ['asin', 'country'])
@@ -83,7 +83,7 @@ class Product extends BaseEntity {
       onDelete: 'CASCADE',
       onUpdate: 'NO ACTION'
     })
-      priceHistories: ProductPriceHistory[];
+      priceHistories: Relation<ProductPriceHistory>[];
 
     getUrl = () => {
       // Amazon tr seller id: A1UNQM1SR2CHM

@@ -1,5 +1,5 @@
 import { MessageEmbed } from 'discord.js';
-import PriceChangeInterface from '../../interfaces/PriceChangeInterface';
+import PriceChangeInterface from '../../interfaces/PriceChangeInterface.js';
 
 const productPriceDropEmbed = (priceChange: PriceChangeInterface): MessageEmbed => {
   let descriptionText = `**%${priceChange.priceDiffPerc} İNDİRİM**`;

@@ -1,9 +1,9 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandInteraction } from 'discord.js';
-import ProductController from '../../../controller/ProductController';
-import productEmbed from '../../../helpers/embeds/productEmbed';
-import { parseProductUrlsWithTlds } from '../../../helpers/productUrlHelper';
-import DiscordCommandInterface from '../../../interfaces/DiscordCommandInterface';
+import ProductController from '../../../controller/ProductController.js';
+import productEmbed from '../../../helpers/embeds/productEmbed.js';
+import { parseProductUrlsWithTlds } from '../../../helpers/productUrlHelper.js';
+import DiscordCommandInterface from '../../../interfaces/DiscordCommandInterface.js';
 
 const productCommand: DiscordCommandInterface = {
   data: (new SlashCommandBuilder()
@@ -16,9 +16,20 @@ const productCommand: DiscordCommandInterface = {
       .setDescription('Sets product information')
       .addStringOption(option => option.setName('product').setDescription('Message to parse product url from').setRequired(true))
       .addStringOption(option => option.setName('info').setDescription('The product information to change').setRequired(true)
-        .addChoice('Dip Fiyat', 'lowest_price')
-        .addChoice('Takibe Başlandığı Fiyat', 'price')
-        .addChoice('Güncel Fiyat', 'current_price'))
+        .addChoices(
+          {
+            name: 'Dip Fiyat',
+            value: 'lowest_price'
+          },
+          {
+            name: 'Takibe Başlandığı Fiyat',
+            value: 'price'
+          },
+          {
+            name: 'Güncel Fiyat',
+            value: 'current_price'
+          }
+        ))
       .addStringOption(option => option.setName('value').setDescription('The value to set').setRequired(true)))
   ),
   execute: async (interaction: CommandInteraction) => {

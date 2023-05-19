@@ -1,4 +1,4 @@
-import Worker from './Worker';
+import Worker from './Worker.js';
 
 class WorkerPool {
   workers: Worker[];

@@ -1,4 +1,4 @@
-import ProductParserInterface from './ProductParserInterface';
+import ProductParserInterface from './ProductParserInterface.js';
 
 interface TrackingResponseInterface {
   productId: number;

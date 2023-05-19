@@ -1,4 +1,4 @@
-import Product from '../entity/Product';
+import Product from '../entity/Product.js';
 
 interface CreateProductFromUrlResultInterface {
   productDetail: Product,

@@ -1,7 +1,9 @@
 import { LessThanOrEqual, Repository } from 'typeorm';
-import sqlConnection from '../data-source';
-import Product from '../entity/Product';
-import ProductParseResultInterface from '../interfaces/ProductParseResultInterface';
+import sqlConnection from '../data-source.js';
+import Product from '../entity/Product.js';
+import ProductParseResultInterface from '../interfaces/ProductParseResultInterface.js';
+import discordConfig from '../config/discord.js';
+import { discord } from '../app.js';
 
 class ProductController {
 
@@ -50,7 +52,18 @@ class ProductController {
   static upsertProduct = async (productParseResult: ProductParseResultInterface): Promise<Product> => {
     const product = productParseResult.product ?? new Product;
 
-    product.asin = productParseResult.parsedData.asin;
+    if (product.asin && product.asin !== productParseResult.parsedData.asin && discordConfig.notifyChannelId) {
+      const notifyChannel = discord.channels.cache.get(discordConfig.notifyChannelId);
+
+      if (notifyChannel?.isText()) {
+        notifyChannel.send({
+          content: `Ürün ASIN kodu değişmiş!\n\n${product.getUrl()}\nÜrün ID: ${product.id}\nEski ASIN: ${product.asin}\nYeni ASIN: ${productParseResult.parsedData.asin}`
+        });
+      }
+    } else {
+      product.asin = productParseResult.parsedData.asin;
+    }
+
     product.name = productParseResult.parsedData.title;
     product.country = productParseResult.parsedData.locale;
     product.image = productParseResult.parsedData.image;
@@ -74,7 +87,13 @@ class ProductController {
     product.seller = productParseResult.parsedData.seller;
     product.currentPrice = productParseResult.parsedData.price;
 
-    return product.save();
+    try {
+      await product.save();
+    } catch (error) {
+      console.error(error);
+    }
+
+    return product;
   };
 
   static disableProductTracking = async (productDetail: Product) => {

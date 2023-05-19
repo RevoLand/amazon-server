@@ -1,4 +1,4 @@
-import sqlConnection from '../data-source';
+import sqlConnection from '../data-source.js';
 
 export const connectToSql = async (): Promise<boolean> => {
   try {

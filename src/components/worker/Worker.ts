@@ -1,8 +1,8 @@
 import { nanoid } from 'nanoid';
 import { WebSocket } from 'ws';
-import WorkerStateEnum from '../../helpers/enums/WorkerStateEnum';
-import ProductTrackerProductInterface from '../../interfaces/ProductTrackerProductInterface';
-import WorkerInterface from '../../interfaces/WorkerInterface';
+import WorkerStateEnum from '../../helpers/enums/WorkerStateEnum.js';
+import ProductTrackerProductInterface from '../../interfaces/ProductTrackerProductInterface.js';
+import WorkerInterface from '../../interfaces/WorkerInterface.js';
 
 class Worker implements WorkerInterface {
   id: string;
@@ -29,8 +29,6 @@ class Worker implements WorkerInterface {
 
   updateState(state: WorkerStateEnum) {
     this.state = state;
-
-    console.log(`[${this.id}] worker state update, new state: ${state}`);
   }
 
   beginProductTracking = (product: ProductTrackerProductInterface) => {
@@ -48,6 +46,14 @@ class Worker implements WorkerInterface {
       type: 'create-tracking',
       value: productUrl,
       channelId
+    }));
+  };
+
+  sendCaptchaAnswer = (captchaAnswer: string, url: string) => {
+    this.webSocket.send(JSON.stringify({
+      type: 'captcha-answer',
+      value: captchaAnswer,
+      data: url
     }));
   };
 }

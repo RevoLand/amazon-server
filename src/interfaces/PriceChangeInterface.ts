@@ -1,6 +1,6 @@
-import Product from '../entity/Product';
-import ProductPriceHistory from '../entity/ProductPriceHistory';
-import ProductParserInterface from './ProductParserInterface';
+import Product from '../entity/Product.js';
+import ProductPriceHistory from '../entity/ProductPriceHistory.js';
+import ProductParserInterface from './ProductParserInterface.js';
 
 interface PriceChangeInterface {
   product: Product,

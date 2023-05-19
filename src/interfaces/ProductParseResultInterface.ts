@@ -1,5 +1,5 @@
-import Product from '../entity/Product';
-import ProductParserInterface from './ProductParserInterface';
+import Product from '../entity/Product.js';
+import ProductParserInterface from './ProductParserInterface.js';
 
 interface ProductParseResultInterface {
   product: Product | null,

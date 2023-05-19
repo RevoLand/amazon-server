@@ -1,5 +1,5 @@
 import { MessageEmbed } from 'discord.js';
-import Product from '../../entity/Product';
+import Product from '../../entity/Product.js';
 
 const productCreatedEmbed = (product: Product): MessageEmbed => {
   const embed = new MessageEmbed()

@@ -1,5 +1,5 @@
-import Setting from '../entity/Setting';
-import SettingsEnum from '../helpers/enums/SettingsEnum';
+import Setting from '../entity/Setting.js';
+import SettingsEnum from '../helpers/enums/SettingsEnum.js';
 
 class Settings {
   private settings: Setting[];

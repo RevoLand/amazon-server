@@ -1,7 +1,7 @@
 import getUrls from 'get-urls';
 import { URL } from 'url';
-import countries from '../config/countries';
-import ProductUrlInterface from '../interfaces/ProductUrlInterface';
+import countries from '../config/countries.js';
+import ProductUrlInterface from '../interfaces/ProductUrlInterface.js';
 
 export const getTldFromUrl = (urlToParse: string) => new URL(urlToParse).hostname.replace('www.', '').replace('amazon', '');
 

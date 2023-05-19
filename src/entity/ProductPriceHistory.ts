@@ -1,5 +1,5 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import Product from './Product';
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, type Relation } from 'typeorm';
+import Product from './Product.js';
 
 @Entity('product_price_histories')
 class ProductPriceHistory extends BaseEntity {
@@ -44,7 +44,7 @@ class ProductPriceHistory extends BaseEntity {
       name: 'product_detail_id',
       referencedColumnName: 'id'
     })
-      product: Product;
+      product: Relation<Product>;
 }
 
 export default ProductPriceHistory;

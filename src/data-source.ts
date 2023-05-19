@@ -1,8 +1,8 @@
 import { DataSource } from 'typeorm';
-import database from './config/database';
-import Product from './entity/Product';
-import ProductPriceHistory from './entity/ProductPriceHistory';
-import Setting from './entity/Setting';
+import database from './config/database.js';
+import Product from './entity/Product.js';
+import ProductPriceHistory from './entity/ProductPriceHistory.js';
+import Setting from './entity/Setting.js';
 
 const sqlConnection = new DataSource({
   type: 'mysql',

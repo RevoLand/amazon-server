@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandInteraction } from 'discord.js';
-import { trackProducts } from '../../../helpers/discord';
-import { parseProductUrls } from '../../../helpers/productUrlHelper';
-import DiscordCommandInterface from '../../../interfaces/DiscordCommandInterface';
+import { trackProducts } from '../../../helpers/discord.js';
+import { parseProductUrls } from '../../../helpers/productUrlHelper.js';
+import DiscordCommandInterface from '../../../interfaces/DiscordCommandInterface.js';
 
 const trackCommand: DiscordCommandInterface = {
   data: new SlashCommandBuilder()

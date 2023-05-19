@@ -1,5 +1,5 @@
 import { WebSocket } from 'ws';
-import WorkerStateEnum from '../helpers/enums/WorkerStateEnum';
+import WorkerStateEnum from '../helpers/enums/WorkerStateEnum.js';
 
 interface WorkerInterface {
   id: string;

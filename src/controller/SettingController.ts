@@ -1,8 +1,8 @@
 import { Repository } from 'typeorm';
-import Settings from '../components/Settings';
-import sqlConnection from '../data-source';
-import Setting from '../entity/Setting';
-import SettingsEnum from '../helpers/enums/SettingsEnum';
+import Settings from '../components/Settings.js';
+import sqlConnection from '../data-source.js';
+import Setting from '../entity/Setting.js';
+import SettingsEnum from '../helpers/enums/SettingsEnum.js';
 
 class SettingController {
   static repository(): Repository<Setting> {

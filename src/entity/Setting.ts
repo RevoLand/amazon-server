@@ -1,5 +1,5 @@
 import { AfterUpdate, BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import SettingsEnum from '../helpers/enums/SettingsEnum';
+import SettingsEnum from '../helpers/enums/SettingsEnum.js';
 
 @Entity('settings')
 class Setting extends BaseEntity {

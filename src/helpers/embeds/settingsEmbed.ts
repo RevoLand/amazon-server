@@ -1,6 +1,6 @@
 import { MessageEmbed } from 'discord.js';
-import Settings from '../../components/Settings';
-import SettingsEnum from '../enums/SettingsEnum';
+import Settings from '../../components/Settings.js';
+import SettingsEnum from '../enums/SettingsEnum.js';
 
 const settingsEmbed = (settings: Settings): MessageEmbed => {
   const embed = new MessageEmbed()

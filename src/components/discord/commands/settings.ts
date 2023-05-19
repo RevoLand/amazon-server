@@ -1,9 +1,9 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandInteraction } from 'discord.js';
-import SettingController from '../../../controller/SettingController';
-import settingsEmbed from '../../../helpers/embeds/settingsEmbed';
-import SettingsEnum from '../../../helpers/enums/SettingsEnum';
-import DiscordCommandInterface from '../../../interfaces/DiscordCommandInterface';
+import SettingController from '../../../controller/SettingController.js';
+import settingsEmbed from '../../../helpers/embeds/settingsEmbed.js';
+import SettingsEnum from '../../../helpers/enums/SettingsEnum.js';
+import DiscordCommandInterface from '../../../interfaces/DiscordCommandInterface.js';
 
 const productCommand: DiscordCommandInterface = {
   data: new SlashCommandBuilder()
@@ -16,10 +16,12 @@ const productCommand: DiscordCommandInterface = {
       .addStringOption(option => option.setName('setting')
         .setDescription('The setting to change')
         .setRequired(true)
-        .addChoice('Takip Aralığı', SettingsEnum.trackingInterval)
-        .addChoice('En az fiyat düşüşü', SettingsEnum.minimumPriceDrop)
-        .addChoice('En az fiyat düşüşü (yüzde)', SettingsEnum.minimumPriceDropPercentage)
-        .addChoice('Yalnızca en düşük fiyat bildirimi', SettingsEnum.onlyNotifyLowestPriceDrops))
+        .addChoices(
+          { name: 'Takip Aralığı', value: SettingsEnum.trackingInterval },
+          { name: 'En az fiyat düşüşü', value: SettingsEnum.minimumPriceDrop },
+          { name: 'En az fiyat düşüşü (yÜzde)', value: SettingsEnum.minimumPriceDropPercentage },
+          { name: 'Yalnızca en düşük fiyat bildirimi', value: SettingsEnum.onlyNotifyLowestPriceDrops }
+        ))
       .addStringOption(option => option.setName('value')
         .setDescription('The value to set')
         .setRequired(true))),

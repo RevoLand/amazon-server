@@ -1,13 +1,13 @@
 import { CacheType, Client, CommandInteraction, Intents, Message } from 'discord.js';
-import { server } from '../app';
-import { readDiscordCommands, registerDiscordCommands } from '../components/discord/discordCommands';
-import discordReadyEvent from '../components/discord/events/discordReadyEvent';
-import discordConfig from '../config/discord';
-import ProductController from '../controller/ProductController';
-import ProductUrlInterface from '../interfaces/ProductUrlInterface';
-import { getRandomInt } from './common';
-import productTrackingStoppedEmbed from './embeds/productTrackingStoppedEmbed';
-import { parseProductUrls, parseProductUrlsWithTlds } from './productUrlHelper';
+import { server } from '../app.js';
+import { readDiscordCommands, registerDiscordCommands } from '../components/discord/discordCommands.js';
+import discordReadyEvent from '../components/discord/events/discordReadyEvent.js';
+import discordConfig from '../config/discord.js';
+import ProductController from '../controller/ProductController.js';
+import ProductUrlInterface from '../interfaces/ProductUrlInterface.js';
+import { getRandomInt } from './common.js';
+import productTrackingStoppedEmbed from './embeds/productTrackingStoppedEmbed.js';
+import { parseProductUrls, parseProductUrlsWithTlds } from './productUrlHelper.js';
 
 export const trackProducts = async (productUrls: string[], interaction: CommandInteraction<CacheType> | Message<boolean>) => {
   if (productUrls.length === 0) {

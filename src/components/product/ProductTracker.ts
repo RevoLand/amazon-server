@@ -1,23 +1,23 @@
 import dayjs from 'dayjs';
-import shuffle from 'lodash/shuffle';
+import _ from 'lodash';
 import { exit } from 'process';
-import { discord, server } from '../../app';
-import discordConfig from '../../config/discord';
-import ProductController from '../../controller/ProductController';
-import SettingController from '../../controller/SettingController';
-import Product from '../../entity/Product';
-import ProductPriceHistory from '../../entity/ProductPriceHistory';
-import { wait } from '../../helpers/common';
-import productPriceChangeEmbed from '../../helpers/embeds/productPriceChangeEmbed';
-import productPriceDropEmbed from '../../helpers/embeds/productPriceDropEmbed';
-import SettingsEnum from '../../helpers/enums/SettingsEnum';
-import WorkerStateEnum from '../../helpers/enums/WorkerStateEnum';
-import PriceChangeInterface from '../../interfaces/PriceChangeInterface';
-import ProductParseResultInterface from '../../interfaces/ProductParseResultInterface';
-import ProductTrackerProductInterface from '../../interfaces/ProductTrackerProductInterface';
-import TrackingResponseInterface from '../../interfaces/TrackingResponseInterface';
-import Settings from '../Settings';
-import Worker from '../worker/Worker';
+import { discord, server } from '../../app.js';
+import discordConfig from '../../config/discord.js';
+import ProductController from '../../controller/ProductController.js';
+import SettingController from '../../controller/SettingController.js';
+import Product from '../../entity/Product.js';
+import ProductPriceHistory from '../../entity/ProductPriceHistory.js';
+import { wait } from '../../helpers/common.js';
+import productPriceChangeEmbed from '../../helpers/embeds/productPriceChangeEmbed.js';
+import productPriceDropEmbed from '../../helpers/embeds/productPriceDropEmbed.js';
+import SettingsEnum from '../../helpers/enums/SettingsEnum.js';
+import WorkerStateEnum from '../../helpers/enums/WorkerStateEnum.js';
+import PriceChangeInterface from '../../interfaces/PriceChangeInterface.js';
+import ProductParseResultInterface from '../../interfaces/ProductParseResultInterface.js';
+import ProductTrackerProductInterface from '../../interfaces/ProductTrackerProductInterface.js';
+import TrackingResponseInterface from '../../interfaces/TrackingResponseInterface.js';
+import Settings from '../Settings.js';
+import Worker from '../worker/Worker.js';
 
 class ProductTracker {
   products: ProductTrackerProductInterface[] = [];
@@ -49,8 +49,6 @@ class ProductTracker {
   };
 
   private queueProductsForTracking = async () => {
-    console.log('Queueing products for tracking... ' + dayjs().toISOString());
-
     try {
       let productsForTracking = await ProductController.enabledWithDateFilter(dayjs().subtract(this.trackingIntervalMinutes, 'm').toDate());
 
@@ -64,7 +62,7 @@ class ProductTracker {
         return;
       }
 
-      const shuffledProductsList = shuffle(productsForTracking);
+      const shuffledProductsList = _.shuffle(productsForTracking);
 
       for (const product of shuffledProductsList) {
         this.trackProduct(product);
@@ -72,8 +70,6 @@ class ProductTracker {
     } catch (error) {
       console.error('Hata - queueProductsForTracking', error);
     }
-
-    console.log(`Has ${this.products.length} products queued for tracking.`);
 
     if (discordConfig.botSpamChannelId && this.products.length > 0) {
       const botSpamChannel = discord.channels.cache.get(discordConfig.botSpamChannelId);
@@ -91,8 +87,6 @@ class ProductTracker {
     }
 
     this.status = true;
-
-    console.log('Starting Product Tracker... ' + dayjs().toString());
 
     const settings = await SettingController.getAll();
 
@@ -113,7 +107,6 @@ class ProductTracker {
     this.trackingIntervalMinutes = +trackingInterval.value;
 
     while (!discord || !discord.isReady()) {
-      console.log('Discord client is not ready!');
       await wait(1000);
     }
 

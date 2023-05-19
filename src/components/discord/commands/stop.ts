@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandInteraction } from 'discord.js';
-import { stopTrackingProducts } from '../../../helpers/discord';
-import { parseProductUrlsWithTlds } from '../../../helpers/productUrlHelper';
-import DiscordCommandInterface from '../../../interfaces/DiscordCommandInterface';
+import { stopTrackingProducts } from '../../../helpers/discord.js';
+import { parseProductUrlsWithTlds } from '../../../helpers/productUrlHelper.js';
+import DiscordCommandInterface from '../../../interfaces/DiscordCommandInterface.js';
 
 const productCommand: DiscordCommandInterface = {
   data: new SlashCommandBuilder()
