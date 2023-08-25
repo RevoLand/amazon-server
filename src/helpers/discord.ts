@@ -25,11 +25,11 @@ export const trackProducts = async (productUrls: string[], interaction: CommandI
       ephemeral: true
     });
 
-    const availableWorkers = server.workerPool.availableWorkers();
+    const allWorkers = server.workerPool.workers;
 
-    if (availableWorkers.length === 0) {
+    if (allWorkers.length === 0) {
       await interaction.reply({
-        content: 'Uygun durumda bir Worker bulunmadığı için ürün(ler) takibe alınamadı. Toplam worker sayısı: ' + server.workerPool.workers.length,
+        content: 'Herhangi bir Worker bulunmadığı için ürün(ler) takibe alınamadı. Toplam worker sayısı: ' + server.workerPool.workers.length,
         ephemeral: true
       });
 
@@ -37,7 +37,7 @@ export const trackProducts = async (productUrls: string[], interaction: CommandI
     }
 
     for (const productUrl of productUrls) {
-      availableWorkers[getRandomInt(0, availableWorkers.length - 1)].createProductTracking(productUrl, interaction.channelId);
+      allWorkers[getRandomInt(0, allWorkers.length - 1)].createProductTracking(productUrl, interaction.channelId);
     }
   } catch (error) {
     console.error('An error happened while executing the track command function.', error);
